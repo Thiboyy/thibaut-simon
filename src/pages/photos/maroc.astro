@@ -3,7 +3,7 @@ import Header from "../../components/Header.astro";
 import AlbumGallery from "../../components/AlbumGallery.astro";
 
 const imageModules = import.meta.glob(
-	"/src/assets/photos/maroc/*.jpg",
+	"/src/assets/photos/Maroc/*.{jpg,jpeg,JPG,JPEG,png,PNG,webp,WEBP}",
 	{
 		eager: true,
 		import: "default",
