@@ -1,0 +1,67 @@
+---
+import Header from "../../components/Header.astro";
+import AlbumGallery from "../../components/AlbumGallery.astro";
+
+const imageModules = import.meta.glob(
+	"/src/assets/photos/rinjani/*.jpg",
+	{
+		eager: true,
+		import: "default",
+	}
+);
+
+const photos = Object.entries(imageModules)
+	.filter(([path]) => !path.toLowerCase().includes("cover_"))
+	.sort(([pathA], [pathB]) =>
+		pathA.localeCompare(pathB, undefined, { numeric: true })
+	)
+	.map(([path, image]) => ({
+		image: image as any,
+		alt: path.split("/").pop()?.replace(".jpg", "") ?? "Photo",
+	}));
+---
+
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+
+	<meta charset="UTF-8" />
+
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"
+	/>
+
+	<title>rinjani — Thibaut Simon</title>
+
+</head>
+
+<body>
+
+	<Header />
+
+	<AlbumGallery
+		title="MONT RINJANI & MONT BATUR"
+		photos={photos}
+	/>
+
+</body>
+
+</html>
+
+
+<style>
+
+	html {
+		font-family: Arial, Helvetica, sans-serif;
+		background: white;
+		color: #111;
+	}
+
+	body {
+		margin: 0;
+	}
+
+</style>

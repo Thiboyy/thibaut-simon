@@ -1,0 +1,352 @@
+---
+import Header from "../components/Header.astro";
+
+const imageModules = import.meta.glob(
+	"/src/assets/home/*.{jpg,jpeg,JPG,JPEG,png,PNG,webp,WEBP}",
+	{
+		eager: true,
+		import: "default",
+	}
+);
+
+const homeImages = Object.entries(imageModules)
+	.sort(([pathA], [pathB]) =>
+		pathA.localeCompare(pathB, undefined, { numeric: true })
+	)
+	.map(([path, image]) => ({
+		src: (image as any).src,
+		width: (image as any).width,
+		height: (image as any).height,
+		name:
+			path
+				.split("/")
+				.pop()
+				?.replace(/\.[^/.]+$/, "") ?? "",
+	}));
+---
+
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+
+	<meta charset="UTF-8" />
+
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"
+	/>
+
+	<meta
+		name="description"
+		content="Portfolio photographique de Thibaut Simon"
+	/>
+
+	<title>Thibaut Simon — Photography</title>
+
+</head>
+
+
+<body>
+
+	<Header />
+
+
+	<main>
+
+		{
+			homeImages.length > 0 && (
+
+				<section class="hero">
+
+					<div class="image-container">
+
+						<img
+							id="hero-image"
+							src={homeImages[0].src}
+							alt="Photographie de Thibaut Simon"
+						/>
+
+					</div>
+
+
+					<div class="hero-footer">
+
+						<div>
+
+							<p class="label">
+								Selected photography
+							</p>
+
+						</div>
+
+
+
+
+						<a
+							href="/photos/"
+							class="photos-link"
+						>
+							Voir les photos →
+						</a>
+
+					</div>
+
+				</section>
+
+			)
+		}
+
+	</main>
+
+
+	<script define:vars={{ homeImages }}>
+
+		const heroImage =
+			document.querySelector("#hero-image");
+
+
+		if (heroImage && homeImages.length > 0) {
+
+			const randomIndex =
+				Math.floor(
+					Math.random() * homeImages.length
+				);
+
+			const selectedImage =
+				homeImages[randomIndex];
+
+
+			heroImage.src =
+				selectedImage.src;
+
+
+
+			/* Apparition douce */
+
+			heroImage.addEventListener(
+				"load",
+				() => {
+					heroImage.classList.add("loaded");
+				}
+			);
+
+			if (heroImage.complete) {
+				heroImage.classList.add("loaded");
+			}
+
+		}
+
+	</script>
+
+</body>
+
+</html>
+
+
+<style>
+
+	/* =============================
+	   GENERAL
+	============================= */
+
+	* {
+		box-sizing: border-box;
+	}
+
+	html {
+		font-family: Arial, Helvetica, sans-serif;
+
+		background: #fff;
+		color: #111;
+	}
+
+	body {
+		margin: 0;
+	}
+
+
+	/* =============================
+	   PAGE D'ACCUEIL
+	============================= */
+
+	main {
+	height: calc(100vh - 100px);
+
+	padding: 20px 36px 25px;
+	}
+
+
+	.hero {
+		max-width: 1500px;
+		height: 100%;
+
+		margin: 0 auto;
+
+		display: grid;
+
+		grid-template-rows:
+			minmax(0, 1fr)
+			auto;
+	}
+
+
+	/* Zone réservée à la photo */
+
+	.image-container {
+		min-height: 0;
+
+		display: flex;
+
+		align-items: center;
+		justify-content: center;
+	}
+
+
+	/* Photo */
+
+	#hero-image {
+		display: block;
+
+		max-width: 100vw;
+		max-height: 68vh;
+
+		width: auto;
+		height: auto;
+
+		object-fit: contain;
+
+		opacity: 0;
+
+		transition: opacity 0.5s ease;
+	}
+
+
+	#hero-image.loaded {
+		opacity: 1;
+	}
+
+
+	/* =============================
+	   TEXTE SOUS L'IMAGE
+	============================= */
+
+	.hero-footer {
+
+		margin-top: 22px;
+
+		display: flex;
+
+		align-items: flex-start;
+		justify-content: space-between;
+
+		gap: 30px;
+	}
+
+
+	.label {
+
+		margin: 0;
+
+		font-size: 10px;
+
+		letter-spacing: 0.14em;
+
+		text-transform: uppercase;
+
+		color: #777;
+	}
+
+
+	.album-name {
+
+		margin:
+			6px 0 0;
+
+		font-size: 12px;
+
+		letter-spacing: 0.08em;
+	}
+
+
+	.photos-link {
+
+		color: #111;
+
+		text-decoration: none;
+
+		font-size: 10px;
+
+		letter-spacing: 0.14em;
+
+		text-transform: uppercase;
+
+		transition:
+			opacity 0.2s ease;
+	}
+
+
+	.photos-link:hover {
+		opacity: 0.5;
+	}
+
+
+	/* =============================
+	   MOBILE
+	============================= */
+
+	@media (max-width: 600px) {
+
+		main {
+				width: 100%;
+				height: calc(100vh - 80px);
+
+				padding: 12px 18px 18px;
+
+				overflow-x: hidden;
+			}
+
+		.hero {
+
+			width: 100%;
+			max-width: 100%;
+
+		}
+
+
+
+		.image-container {
+			width: 100%;
+			min-width: 0;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+
+		#hero-image {
+			display: block;
+
+			width: 100%;
+			max-width: 100%;
+			height: auto;
+
+			max-height: 72vh;
+
+			object-fit: contain;
+		}
+
+
+		.hero-footer {
+			width: 100%;
+
+			margin-top: 10px;
+
+			gap: 15px;
+		}
+
+	}
+
+</style>

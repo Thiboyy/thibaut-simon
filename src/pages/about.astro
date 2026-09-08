@@ -1,0 +1,311 @@
+---
+import Header from "../components/Header.astro";
+import { Image } from "astro:assets";
+
+import portrait from "../assets/about/portrait_2.jpg";
+---
+
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+
+	<meta charset="UTF-8" />
+
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"
+	/>
+
+	<meta
+		name="description"
+		content="À propos de Thibaut Simon, photographe."
+	/>
+
+	<title>À propos — Thibaut Simon</title>
+
+</head>
+
+<script>
+
+	const revealElements =
+		document.querySelectorAll(".reveal");
+
+	requestAnimationFrame(() => {
+
+		requestAnimationFrame(() => {
+
+			revealElements.forEach((element) => {
+				element.classList.add("is-visible");
+			});
+
+		});
+
+	});
+
+</script>
+
+
+<body>
+
+	<Header />
+
+
+	<main>
+
+		<section class="about">
+
+			<h1>À propos</h1>
+
+
+			<div class="about-content">
+
+			<div class="portrait reveal reveal-portrait">
+
+				<Image
+					src={portrait}
+					alt="Portrait de Thibaut Simon"
+				/>
+
+			</div>
+
+
+			<div class="left-column reveal reveal-text">
+
+				<div class="bio">
+
+					<p>
+						Je photographie ce qui attire mon regard :
+						une lumière, une couleur, un lieu ou une personne.
+					</p>
+
+					<p>
+						Mes images se construisent principalement autour
+						des voyages, des rencontres et des scènes du quotidien.
+					</p>
+
+					<p>
+						Ce portfolio rassemble une sélection de mon travail
+						photographique et évoluera au fil de mes projets
+						et de mes voyages.
+					</p>
+
+				</div>
+
+				<div class="contact">
+
+					<p class="section-title">
+						Contact
+					</p>
+
+					<p class="contact-item">
+						thibaut.simon22@gmail.com
+					</p>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+		</section>
+
+	</main>
+
+</body>
+
+</html>
+
+
+<style>
+
+	/* GENERAL */
+
+	* {
+		box-sizing: border-box;
+	}
+
+
+	html {
+		font-family: Arial, Helvetica, sans-serif;
+
+		background: #fff;
+		color: #111;
+	}
+
+
+	body {
+		margin: 0;
+	}
+
+
+	main {
+		padding: 45px 36px 60px;
+	}
+
+
+	.about {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.reveal {
+		opacity: 0;
+		transform: translateY(12px);
+
+		transition:
+			opacity 0.7s ease,
+			transform 0.7s ease;
+	}
+
+	.reveal.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.reveal-portrait {
+		transition-delay: 0ms;
+	}
+
+	.reveal-text {
+		transition-delay: 120ms;
+	}
+
+
+	/* TITRE */
+
+	h1 {
+		margin: 0 0 55px;
+
+		font-size: clamp(42px, 6vw, 80px);
+
+		font-weight: 400;
+
+		letter-spacing: -0.04em;
+	}
+
+
+	/* MISE EN PAGE */
+
+    .about-content {
+        display: grid;
+
+        grid-template-columns:
+            320px
+            minmax(0, 1fr);
+
+        gap: 80px;
+
+        align-items: start;
+    }
+
+
+	.left-column {
+		max-width: 650px;
+	}
+
+
+	/* TEXTE */
+
+	.bio p {
+		margin: 0 0 25px;
+
+		font-size: 18px;
+
+		line-height: 1.6;
+	}
+
+
+	/* PORTRAIT */
+
+	.portrait {
+		width: 100%;
+	}
+
+
+    .portrait img {
+        display: block;
+
+        width: 100%;
+        height: auto;
+
+        max-height: 430px;
+
+        object-fit: contain;
+        object-position: top;
+    }
+
+
+	/* CONTACT */
+
+	.contact {
+		margin-top: 45px;
+
+		display: flex;
+		flex-direction: column;
+
+		align-items: flex-start;
+
+		gap: 12px;
+	}
+
+
+	.section-title {
+		margin: 0 0 15px;
+
+		font-size: 10px;
+
+		letter-spacing: 0.15em;
+
+		text-transform: uppercase;
+
+		color: #777;
+	}
+
+
+	.contact-item {
+		margin: 0;
+
+		font-size: 12px;
+
+		letter-spacing: 0.08em;
+	}
+
+
+	/* MOBILE */
+
+	@media (max-width: 700px) {
+
+		main {
+			padding: 60px 18px 80px;
+		}
+
+
+		h1 {
+			margin-bottom: 60px;
+		}
+
+
+		.about-content {
+			grid-template-columns: 1fr;
+
+			gap: 50px;
+		}
+
+
+		.portrait {
+			max-width: 350px;
+
+			justify-self: start;
+		}
+
+
+		.bio p {
+			font-size: 16px;
+		}
+
+	}
+
+</style>
